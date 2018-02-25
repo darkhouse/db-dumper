@@ -234,7 +234,16 @@ abstract class DbDumper
         return $this;
     }
 
-    abstract public function dumpToFile(string $dumpFile);
+    /**
+     * Dump the contents of the database to the given file.
+     *
+     * @param string $dumpFile
+     */
+    public function dumpToFile(string $dumpFile)
+    {
+        $this->setDumpFile($dumpFile)
+            ->dump();
+    }
 
     abstract public function dump();
 

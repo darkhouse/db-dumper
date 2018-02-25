@@ -101,17 +101,16 @@ class MySql extends DbDumper
     }
 
     /**
-     * Dump the contents of the database to the given file.
-     *
-     * @param string $dumpFile
+     * Dump the contents of the database.
      *
      * @throws \Spatie\DbDumper\Exceptions\CannotStartDump
      * @throws \Spatie\DbDumper\Exceptions\DumpFailed
      */
-    public function dumpToFile(string $dumpFile)
+    public function dump()
     {
         $this->guardAgainstIncompleteCredentials();
 
+        $dumpFile = $this->getDumpFile();
         $tempFileHandle = tmpfile();
         fwrite($tempFileHandle, $this->getContentsOfCredentialsFile());
         $temporaryCredentialsFile = stream_get_meta_data($tempFileHandle)['uri'];
