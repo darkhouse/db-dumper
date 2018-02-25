@@ -42,7 +42,7 @@ abstract class DbDumper
     protected $extraOptions = [];
 
     /** @var string */
-    protected $dumpName = '';
+    protected $dumpFile = '';
 
     public static function create()
     {
@@ -144,20 +144,20 @@ abstract class DbDumper
     }
 
     /**
-     * @param string $dumpName
+     * @param string $dumpFile
      *
      * @return $this
      */
-    public function setDumpName(string $dumpName)
+    public function setDumpFile(string $dumpFile)
     {
-        $this->dumpName = $dumpName;
+        $this->dumpFile = $dumpFile;
 
         return $this;
     }
 
-    public function getDumpName(): string
+    public function getDumpFile(): string
     {
-        return $this->dumpName;
+        return $this->dumpFile;
     }
 
     /**
