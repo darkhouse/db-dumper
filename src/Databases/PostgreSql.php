@@ -32,7 +32,7 @@ class PostgreSql extends DbDumper
      * @throws \Spatie\DbDumper\Exceptions\CannotStartDump
      * @throws \Spatie\DbDumper\Exceptions\DumpFailed
      */
-    public function dumpToFile()
+    public function dump()
     {
         $this->guardAgainstIncompleteCredentials();
 
