@@ -41,6 +41,9 @@ abstract class DbDumper
     /** @var array */
     protected $extraOptions = [];
 
+    /** @var string */
+    protected $dumpName = '';
+
     public static function create()
     {
         return new static();
@@ -141,6 +144,23 @@ abstract class DbDumper
     }
 
     /**
+     * @param string $dumpName
+     *
+     * @return $this
+     */
+    public function setDumpName(string $dumpName)
+    {
+        $this->dumpName = $dumpName;
+
+        return $this;
+    }
+
+    public function getDumpName(): string
+    {
+        return $this->dumpName;
+    }
+
+    /**
      * @param string $dumpBinaryPath
      *
      * @return $this
@@ -215,6 +235,8 @@ abstract class DbDumper
     }
 
     abstract public function dumpToFile(string $dumpFile);
+
+    abstract public function dump();
 
     protected function checkIfDumpWasSuccessFul(Process $process, string $outputFile)
     {
