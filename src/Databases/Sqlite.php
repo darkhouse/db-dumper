@@ -10,12 +10,13 @@ class Sqlite extends DbDumper
     /**
      * Dump the contents of the database.
      *
+     * @throws \Spatie\DbDumper\Exceptions\CannotStartDump
      * @throws \Spatie\DbDumper\Exceptions\DumpFailed
      */
     public function dump()
     {
         $dumpFile = $this->getDumpFile();
-        
+
         $command = $this->getDumpCommand($dumpFile);
 
         $process = new Process($command);
@@ -44,5 +45,14 @@ class Sqlite extends DbDumper
             $this->dbName,
             $dumpFile
         );
+    }
+
+    protected function guardAgainstIncompleteCredentials()
+    {
+        foreach (['dumpName'] as $requiredProperty) {
+            if (empty($this->$requiredProperty)) {
+                throw CannotStartDump::emptyParameter($requiredProperty);
+            }
+        }
     }
 }
