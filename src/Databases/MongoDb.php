@@ -30,7 +30,7 @@ class MongoDb extends DbDumper
         $this->guardAgainstIncompleteCredentials();
 
         $dumpFile = $this->getDumpFile();
-        
+
         $command = $this->getDumpCommand($dumpFile);
 
         $process = new Process($command);
@@ -52,7 +52,7 @@ class MongoDb extends DbDumper
      */
     protected function guardAgainstIncompleteCredentials()
     {
-        foreach (['dbName', 'host'] as $requiredProperty) {
+        foreach (['dbName', 'host', 'dumpFile'] as $requiredProperty) {
             if (strlen($this->$requiredProperty) === 0) {
                 throw CannotStartDump::emptyParameter($requiredProperty);
             }

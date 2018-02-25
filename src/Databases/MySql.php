@@ -210,7 +210,7 @@ class MySql extends DbDumper
 
     protected function guardAgainstIncompleteCredentials()
     {
-        foreach (['userName', 'dbName', 'host'] as $requiredProperty) {
+        foreach (['userName', 'dbName', 'host', 'dumpFile'] as $requiredProperty) {
             if (strlen($this->$requiredProperty) === 0) {
                 throw CannotStartDump::emptyParameter($requiredProperty);
             }
