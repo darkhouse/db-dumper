@@ -20,17 +20,17 @@ class MongoDb extends DbDumper
     protected $authenticationDatabase = null;
 
     /**
-     * Dump the contents of the database to the given file.
-     *
-     * @param string $dumpFile
+     * Dump the contents of the database.
      *
      * @throws \Spatie\DbDumper\Exceptions\CannotStartDump
      * @throws \Spatie\DbDumper\Exceptions\DumpFailed
      */
-    public function dumpToFile(string $dumpFile)
+    public function dump()
     {
         $this->guardAgainstIncompleteCredentials();
 
+        $dumpFile = $this->getDumpFile();
+        
         $command = $this->getDumpCommand($dumpFile);
 
         $process = new Process($command);
