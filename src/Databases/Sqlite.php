@@ -8,14 +8,14 @@ use Symfony\Component\Process\Process;
 class Sqlite extends DbDumper
 {
     /**
-     * Dump the contents of the database to a given file.
-     *
-     * @param string $dumpFile
+     * Dump the contents of the database.
      *
      * @throws \Spatie\DbDumper\Exceptions\DumpFailed
      */
-    public function dumpToFile(string $dumpFile)
+    public function dump()
     {
+        $dumpFile = $this->getDumpFile();
+        
         $command = $this->getDumpCommand($dumpFile);
 
         $process = new Process($command);
