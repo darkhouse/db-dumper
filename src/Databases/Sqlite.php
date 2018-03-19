@@ -3,6 +3,7 @@
 namespace Spatie\DbDumper\Databases;
 
 use Spatie\DbDumper\DbDumper;
+use Spatie\DbDumper\Exceptions\CannotStartDump;
 use Symfony\Component\Process\Process;
 
 class Sqlite extends DbDumper
@@ -15,6 +16,8 @@ class Sqlite extends DbDumper
      */
     public function dump()
     {
+        $this->guardAgainstIncompleteCredentials();
+
         $dumpFile = $this->getDumpFile();
 
         $command = $this->getDumpCommand($dumpFile);
@@ -49,7 +52,7 @@ class Sqlite extends DbDumper
 
     protected function guardAgainstIncompleteCredentials()
     {
-        foreach (['dumpName'] as $requiredProperty) {
+        foreach (['dumpFile'] as $requiredProperty) {
             if (empty($this->$requiredProperty)) {
                 throw CannotStartDump::emptyParameter($requiredProperty);
             }

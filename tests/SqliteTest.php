@@ -4,6 +4,7 @@ namespace Spatie\DbDumper\Test;
 
 use PHPUnit\Framework\TestCase;
 use Spatie\DbDumper\Databases\Sqlite;
+use Spatie\DbDumper\Exceptions\CannotStartDump;
 
 class SqliteTest extends TestCase
 {
@@ -11,6 +12,14 @@ class SqliteTest extends TestCase
     public function it_provides_a_factory_method()
     {
         $this->assertInstanceOf(Sqlite::class, Sqlite::create());
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_no_dump_file_name_is_set()
+    {
+        $this->expectException(CannotStartDump::class);
+
+        Sqlite::create()->dump();
     }
 
     /** @test */
