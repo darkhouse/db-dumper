@@ -23,6 +23,26 @@ class MongoDbTest extends TestCase
     }
 
     /** @test */
+    public function it_will_throw_an_exception_when_no_credentials_are_set_with_custom_dump_file_name()
+    {
+        $this->expectException(CannotStartDump::class);
+
+        MongoDb::create()
+            ->setDumpFile('test.gz')
+            ->dump();
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_no_dump_file_name_is_set()
+    {
+        $this->expectException(CannotStartDump::class);
+
+        MongoDb::create()
+            ->setDbName('dbname')
+            ->dump();
+    }
+
+    /** @test */
     public function it_can_generate_a_dump_command()
     {
         $dumpCommand = MongoDb::create()
@@ -105,5 +125,13 @@ class MongoDbTest extends TestCase
 
         $this->assertSame('\'mongodump\' --db dbname --archive=dbname.gz'
             .' --host localhost --port 27017 --authenticationDatabase admin', $dumpCommand);
+    }
+
+    /** @test */
+    public function it_can_get_the_dump_file_name()
+    {
+        $dumper = MongoDb::create()->setDumpFile('dump1.gz');
+
+        $this->assertSame('dump1.gz', $dumper->getDumpFile());
     }
 }

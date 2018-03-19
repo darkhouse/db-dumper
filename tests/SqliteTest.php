@@ -51,4 +51,27 @@ class SqliteTest extends TestCase
         $this->assertFileExists($dbBackupPath);
         $this->assertNotEquals(0, filesize($dbBackupPath), 'Sqlite dump cannot be empty');
     }
+
+    /** @test */
+    public function it_successfully_creates_a_backup_with_a_custom_dump_file_name()
+    {
+        $dbPath = __DIR__.'/stubs/database.sqlite';
+        $dbBackupPath = __DIR__.'/temp/backup2.sql';
+
+        Sqlite::create()
+            ->setDbName($dbPath)
+            ->setDumpFile($dbBackupPath)
+            ->dump();
+
+        $this->assertFileExists($dbBackupPath);
+        $this->assertNotEquals(0, filesize($dbBackupPath), 'Sqlite dump cannot be empty');
+    }
+
+    /** @test */
+    public function it_can_get_the_dump_file_name()
+    {
+        $dumper = Sqlite::create()->setDumpFile('dump1.sql');
+
+        $this->assertSame('dump1.sql', $dumper->getDumpFile());
+    }
 }

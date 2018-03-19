@@ -24,6 +24,28 @@ class MySqlTest extends TestCase
     }
 
     /** @test */
+    public function it_will_throw_an_exception_when_no_credentials_are_set_with_custom_dump_file_name()
+    {
+        $this->expectException(CannotStartDump::class);
+
+        MySql::create()
+            ->setDumpFile('test.sql')
+            ->dump();
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_no_dump_file_name_is_set()
+    {
+        $this->expectException(CannotStartDump::class);
+
+        MySql::create()
+            ->setDbName('dbname')
+            ->setUserName('username')
+            ->setPassword('password')
+            ->dump();
+    }
+
+    /** @test */
     public function it_can_generate_a_dump_command()
     {
         $dumpCommand = MySql::create()
@@ -315,5 +337,13 @@ class MySqlTest extends TestCase
             ->getDumpCommand('dump.sql', 'credentials.txt');
 
         $this->assertSame('\'mysqldump\' --defaults-extra-file="credentials.txt" --skip-comments --extended-insert --set-gtid-purged=OFF --result-file="dump.sql" dbname', $dumpCommand);
+    }
+
+    /** @test */
+    public function it_can_get_the_dump_file_name()
+    {
+        $dumper = MySql::create()->setDumpFile('dump1.sql');
+
+        $this->assertSame('dump1.sql', $dumper->getDumpFile());
     }
 }
